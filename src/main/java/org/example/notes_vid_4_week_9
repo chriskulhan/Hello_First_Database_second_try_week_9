@@ -1,0 +1,24 @@
+from powerpoint (slide 20)
+
+How to talk to a database SQL: Structured Query Language
+
+Pronounced "sequel" for Microsoft products e.g. SQLServer
+Pronounced "s-q-l" for most other DBs
+Very common query language, used by many major databases
+Used to query database, and send the database commands to carry out
+Some variations between DBs, but SQL basics are the same or very similar between databases
+So, learning SQL enables you to communicate with most databases
+
+SQL
+
+Databases often speak SQL
+You need to construct SQL statements to ask the database to do tasks
+A SQL statement can
+-create a table
+-add data to a table
+-fetch data from a table
+-delete data from a table
+-modify data
+-delete a table
+-And many other operations…
+We need to wrap the SQL statements into Java method calls so your program can send them to the database
