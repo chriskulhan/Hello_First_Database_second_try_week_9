@@ -29,9 +29,10 @@ public class HelloDB_MainProgram {
 //        //ask the 'statement' object from above to execute the above code:
 //        statement.execute(insertDataSQl); //run this.
 
+        //comment out the added data, so the table isn't modified again:
         //add more data:
-        String insertDataSQL = "INSERT INTO cats VALUES ('bozo', 9)";
-        statement.execute(insertDataSQL);
+//        String insertDataSQL = "INSERT INTO cats VALUES ('bozo', 9)";
+//        statement.execute(insertDataSQL);
         //run this and now there are 2 cat added in: hello.sqlite->main->tables->cats
 
         //write a SELECT statement to get info from the database:
@@ -39,6 +40,25 @@ public class HelloDB_MainProgram {
 
         //write a statement to execute SQL: and also send data back in a result set:
         ResultSet allCats = statement.executeQuery(getAllDataSQL);
+        //run this and then check in the database "cats" on the right
+
+
+        //To read from the file, use a while loop
+        //could be no rows or lots of rows:
+        //.next is a result set method -> this returns one row at a time
+        //  or "false" when there are no more rows:
+        while(allCats.next()) {
+            String catName = allCats.getString("name");
+            int catAge = allCats.getInt("age");
+            System.out.println(catName + " is " + catAge + " years old");
+            System.out.printf("%s is %d years old\n", catName, catAge);
+
+            //output:
+            //Bingo is 14 years old
+            //bozo is 9 years old
+
+        }
+
 
         }
     }

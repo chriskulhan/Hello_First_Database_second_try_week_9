@@ -22,3 +22,79 @@ A SQL statement can
 -delete a table
 -And many other operations…
 We need to wrap the SQL statements into Java method calls so your program can send them to the database
+
+***SQL statements – creating a table (slide 24)***
+
+String createTableSQL = "CREATE TABLE cats (name TEXT, age INTEGER)";
+statement.executeUpdate(createTableSQL);
+
+CREATE TABLE cats (name TEXT, age INTEGER)
+
+This is a SQL statement instructing the database
+to create a table called cats with two columns, one called name that stores text.
+The second column is called age and stores integer data.
+
+Remember the order that the columns are in. (will need to insert data in the same order)
+
+Other SQL statements can add data, fetch data, modify data, delete data, delete tables.
+
+***SQL statements – adding data to a table***
+
+String addDataSQL = "INSERT INTO cats VALUES ('Maru', 10)";
+statement.executeUpdate(addDataSQL);
+
+INSERT INTO cats VALUES ('Maru', 10)
+
+This is a SQL statement instructing the database to add a row of data to the cats table.
+The data goes in the parentheses, in the same order as the columns were defined in
+the table.
+
+Strings are enclosed in single quotes.
+
+Table names, column names, and SQL keywords (create table, insert into, values...) are not case sensitive.
+
+String/text data is case sensitive.
+
+**SQL queries: reading data **
+
+SELECT statements used to read data
+SELECT * FROM cats gets all the columns and rows (select all from cats)
+    -We'll use row and column filters soon
+Use statement.executeQuery(sql) method
+    //this ^^ is a query that will return some data
+Data is returned in a ResultSet
+
+***ResultSet***
+
+How much data will be returned from the query?
+Between 0 and millions (maybe billions?) of rows
+Loading all the data into memory could be bad or may be impossible
+So, must access the data using a ResultSet, one row at a time
+
+Loop over the ResultSet using the next() method in a while loop
+The next() method returns true if there is another row to read, false otherwise
+
+  String getAllDataSQL = "SELECT * FROM cats";
+  ResultSet allCats = statement.executeQuery(getAllDataSQL);
+
+  while(allCats.next()) {
+  //returns true if there are more rows to read,
+  //false if all the rows have been read (so ends when the data is out)
+  }
+        String catName = allCats.getString("name");
+        int catAge = allCats.getInt("age");
+        System.out.println(catName + " is " + catAge + " years old");
+        System.out.printf("%s is %d years old\n", catName, catAge);
+
+Read data from one DB row at a time
+  getString(colName) method for TEXT columns,
+  getInt(colName) for INTEGER columns,
+  getDouble(colName) for REAL columns
+    **REAL is for floating point numbers, in Java you'll use double
+
+vid_4_work 19:45 timestamp work with database tool in Intellij:
+**can type SQL into the console/shell of the database you are working with
+
+
+
+
