@@ -42,7 +42,7 @@ public class Database {
         try (Connection connection = DriverManager.getConnection(databasePath);
         Statement statement = connection.createStatement()) {
             //todo (mine) be sure to come back and finish this by adding movie:
-            statement.executeUpdate();
+//            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error adding movie" + movie + " because " + e);
         }

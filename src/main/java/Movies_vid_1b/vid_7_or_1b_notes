@@ -100,3 +100,40 @@ looks like:    //5. write a method: void, called addNewMovie with Movie objects 
 
                }
            }
+vid_7_adding stuff to Movie.java:
+Start with:
+//will be used to create Movie objects
+//movie has a name and stars and weather it's been watched or not
+
+package Movies_vid_1b;
+
+public class Movie {
+}
+
+7.after:
+package Movies_vid_1b;
+
+public class Movie {
+    String name;
+    int stars;
+    boolean watched;
+
+    //create a constructor:
+    Movie (String name, int stars, boolean watched) {
+        this.name = name;
+        this.stars = stars;
+        this.watched = watched;
+
+    }
+}
+
+8. Go to movieList.java that has main method:
+start with: package Movies_vid_1b;
+
+            public class MovieList {
+                //add the main method here:
+                public static void main(String[] args) {
+
+                }
+            }
+End with:
