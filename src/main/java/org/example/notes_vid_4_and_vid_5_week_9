@@ -95,6 +95,48 @@ Read data from one DB row at a time
 vid_4_work 19:45 timestamp work with database tool in Intellij:
 **can type SQL into the console/shell of the database you are working with
 
+//don't forget to close the connection:
+connection.close();
 
+**there are (my) good notes in console [hello.sqlite] in:
+Hello First Database Second try
+-> 'Scratches and Consoles'
+-> Database Consoles
+-> hello.sqlite
+-> console [hello.sqlite]
 
+vid_5_notes:
 
+1. make a new database:
+    -click the plus sign above the database tab in Java
+    -select Data Source ->
+    -select SQLite
+    -name the file at the top something .sqlite
+    -name the File location the same as just above
+    **example: movies.sqlite
+    - press save
+   ***This make a new empty database (with framework) for you in Java
+
+2. Add these things to the database:
+ name (String)
+ stars (int)
+ watched (boolean)
+
+ notes: SQlite doesn't have boolean, so have to store as 0 or 1 (false or true)
+    SQlite will do the conversion for you
+
+ Another note: no built in date: so, use timestamp, and an integer number
+ getTime(): will
+
+Date now = new Date();
+
+//the type is 'long' integer data type vvv
+long timestamp = now.getTime();
+
+System.out.println(timestamp); //a number like 1604092693335
+
+Date fromTimeStamp = new Date(timestamp);
+System.out.println(fromTimestamp); //the current date and time
+
+Date july2017 = new Date (1500000000000L); //There's an L at the end of the number, it's a long not an int
+System.out.println(july2017); //Thu Jul 13 21:40:00 CDT 2017

@@ -58,7 +58,7 @@ public class HelloDB_MainProgram {
             //bozo is 9 years old
 
         }
-
-
+        //close the database here:
+        connection.close();
         }
     }
