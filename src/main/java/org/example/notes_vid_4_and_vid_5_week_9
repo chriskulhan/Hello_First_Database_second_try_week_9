@@ -140,3 +140,69 @@ System.out.println(fromTimestamp); //the current date and time
 
 Date july2017 = new Date (1500000000000L); //There's an L at the end of the number, it's a long not an int
 System.out.println(july2017); //Thu Jul 13 21:40:00 CDT 2017
+
+NOtes taken in console [movies.sqlite]:
+create table movies (name text, stars integer, watched boolean);
+
+insert into movies values ('When Harry met Sally', 4, false);
+insert into movies values ('Independence Day', 3, false);
+insert into movies values ('Terminator', 1, true);
+insert into movies values ('Forrest Gump', 5, false);
+insert into movies values ('Titanic', 5, false);
+insert into movies values ('Blue Lagoon', 2, true);
+
+select * from movies;
+
+-- all were run, all data was added
+
+--only interested in name of movie:
+select name from movies;
+-- shows only names
+
+--get more than one column:
+select name, watched from movies;
+
+-- select specific rows that I haven't watched yet:
+select * from movies where watched = false;
+--watched = 0
+
+-- select specific rows that I have watched yet:
+select * from movies where watched = true;
+--watched = 1
+
+--choose movies that are well rated (> 3):
+select * from movies where stars > 3;
+--returns 3 movies with ratings above 3
+
+-- search for movie that match a specific name:
+select * from movies where name = 'Forrest Gump';
+--lists the movie
+-- these are case sensitive
+
+-- to search without case sensitive:
+select * from movies where upper(name) = upper('forrest gump');
+-- result: Forrest Gump
+
+select * from movies where upper(name) = upper('TITANIC');
+-- result: Titanic
+
+-- search for partial text: '%a%' represents all text that have an 'a' in them:
+select * from movies where name like '%a%';
+
+-- find all movies that begin with a letter T:
+select * from movies where name like 'T%';
+
+--find movies that end with a certain character:
+select * from movies where name like '%or';
+
+--can combine queries using 'and' and 'or':
+select * from movies where name like '%or' and stars >4;
+-- this returned nothing, but only because the query was too restrictive. the code is correct.
+
+-- if just want the name:
+select name from movies where name like '%or' and stars < 4;
+-- returns 'Terminator'
+
+-- if you want to select more than one column:
+select name, stars from movies where watched = true;
+--returns Terminator and Blue Lagoon
