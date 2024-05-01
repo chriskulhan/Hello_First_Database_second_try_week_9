@@ -1,0 +1,89 @@
+Error handling:
+
+Use try with resources:
+
+3. In Database.java in Movies_vid_1b:
+
+Go from : //the SQL code will go here:
+
+            package Movies_vid_1b;
+
+            import java.sql.Connection;
+            import java.sql.DriverManager;
+            import java.sql.Statement;
+
+            public class Database {
+                //2. Make a field to store the database path:
+                private String databasePath;
+
+                //1. use a constructor:
+                //will create a movie table
+                //need to know where the movie table is stored
+                    //-pass that in the argument area () after Database vv:
+                Database(String databasePath){
+                    //create table, or make sure it is created:
+                    //connect and create a table:
+                    //connection is the connection to the database (on the computer or on the internet)
+                    Connection connection = DriverManager.getConnection(databasePath);
+
+                    //statement can execute SQL statements (execute, create table, etc.)
+                    Statement statement = connection.createStatement();
+                }
+            }
+added 4 parts:
+1. constructor:
+2. Make a field to store the database path:
+3. add try catch with resources:
+4. ask the statement to do our SQL for us:
+
+To this: //the SQL code will go here:
+
+         package Movies_vid_1b;
+
+         import java.sql.Connection;
+         import java.sql.DriverManager;
+         import java.sql.SQLException;
+         import java.sql.Statement;
+
+         public class Database {
+             //2. Make a field to store the database path:
+             private String databasePath;
+
+             //1. use a constructor:
+             //will create a movie table
+             //need to know where the movie table is stored
+                 //-pass that in the argument area () after Database vv:
+             Database(String databasePath){
+                 //3. add try catch with resources:
+
+                 //create table, or make sure it is created:
+                 //connect and create a table:
+                 //connection is the connection to the database (on the computer or on the internet)
+                try ( Connection connection = DriverManager.getConnection(databasePath);
+
+                 //statement can execute SQL statements (execute, create table, etc.)
+                 Statement statement = connection.createStatement()) {
+
+                    //4. ask the statement to do our SQL for us:
+                    statement.executeUpdate("CREATE TABLE IF NOT EXISTS " +
+                            "movies(name text, stars integer, watch boolean)");
+
+
+                } catch (SQLException e) {
+                    System.out.println("Error creating movie DB table because " + e);
+                }
+             }
+         }
+
+vid_7 timestamp: 9:23
+adding data: by writing a method that adds data to the database:
+
+after:        } catch (SQLException e) {
+                  System.out.println("Error creating movie DB table because " + e);
+              }
+           }
+           5. add data to the method here:
+
+       }
+
+looks like:
