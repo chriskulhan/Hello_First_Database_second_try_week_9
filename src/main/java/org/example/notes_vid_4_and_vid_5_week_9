@@ -141,7 +141,7 @@ System.out.println(fromTimestamp); //the current date and time
 Date july2017 = new Date (1500000000000L); //There's an L at the end of the number, it's a long not an int
 System.out.println(july2017); //Thu Jul 13 21:40:00 CDT 2017
 
-NOtes taken in console [movies.sqlite]:
+****NOtes taken in console [movies.sqlite]: through first batch of videos to 6)
 create table movies (name text, stars integer, watched boolean);
 
 insert into movies values ('When Harry met Sally', 4, false);
