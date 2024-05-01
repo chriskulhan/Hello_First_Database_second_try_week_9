@@ -38,6 +38,14 @@ public class Database {
     //5. write a method: void, called addNewMovie with Movie objects that will store data
     //and move them around (Movie movie)
     public void addNewMovie(Movie movie) {
-        //todo (mine) be sure to come back and finish this.
+        //6. try connecting to the database:
+        try (Connection connection = DriverManager.getConnection(databasePath);
+        Statement statement = connection.createStatement()) {
+            //todo (mine) be sure to come back and finish this by adding movie:
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error adding movie" + movie + " because " + e);
+        }
+
     }
 }

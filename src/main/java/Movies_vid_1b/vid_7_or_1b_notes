@@ -30,7 +30,7 @@ Go from : //the SQL code will go here:
                     Statement statement = connection.createStatement();
                 }
             }
-added 4 parts:
+added 4 parts: in: Database.java
 1. constructor:
 2. Make a field to store the database path:
 3. add try catch with resources:
@@ -75,7 +75,7 @@ To this: //the SQL code will go here:
              }
          }
 
-vid_7 timestamp: 9:23
+vid_7 timestamp: 9:23 in: Database.java
 adding data: by writing a method that adds data to the database:
 
 after:        } catch (SQLException e) {
@@ -86,4 +86,17 @@ after:        } catch (SQLException e) {
 
        }
 
-looks like:
+looks like:    //5. write a method: void, called addNewMovie with Movie objects that will store data
+               //and move them around (Movie movie)
+               public void addNewMovie(Movie movie) {
+                   //6. try connecting to the database:
+                   try (Connection connection = DriverManager.getConnection(databasePath);
+                   Statement statement = connection.createStatement()) {
+                       //todo (mine) be sure to come back and finish this by adding movie:
+                       statement.executeUpdate();
+                   } catch (SQLException e) {
+                       System.out.println("Error adding movie" + movie + " because " + e);
+                   }
+
+               }
+           }
