@@ -49,6 +49,7 @@ public class Database {
             //insert into movies values('Up, 4, true);
             //we won't know what to say without getting the movies.
             //we have to add SQL statement to your code
+            //need to push
 
 //            statement.executeUpdate();
         } catch (SQLException e) {
