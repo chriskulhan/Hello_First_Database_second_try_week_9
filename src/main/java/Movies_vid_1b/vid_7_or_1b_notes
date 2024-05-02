@@ -216,3 +216,216 @@ before:       public void addNewMovie(Movie movie) {
               System.out.println("Error adding movie" + movie + " because " + e);
           }
 after:
+
+
+***DON't DO THIS: make a string from the parts that you want to add to SQL Database
+You can construct a SQL statement String in your code
+For example, in your code, you'd like to write this SQL
+INSERT INTO movies VALUES ('Dr. Strange', 3, true);
+But the name and stars and watched will be in variables in your program
+You need to build the SQL query and include your data
+
+String name = "Dr. Strange";
+int stars = 3;
+boolean watched = true;
+
+addDataSQL = "INSERT INTO Movies VALUES ('" + name + "', " + stars + ", " + watched + ")";
+statement.executeUpdate(addDataSQL);
+
+Don't make SQL Strings that include Strings from variables
+It's no fun, it's hard to form the correct String
+It can permit corrupted or unexpected data in your database
+It can cause errors - what if the user types some special database characters in their input - can form invalid SQL
+It's a security problem - a user can type more SQL that when combined into the string, change the meaning of the query
+
+Don't use String formatting either
+Except if you have control over the variable data, like constants for table names or DB names
+
+***DO THIS when making strings for SQL:
+
+****Using Prepared Statements to Parameterize Data (from Clara's powerpoint "Java Programming DB and Java1" slide 8)
+
+Easier to build the Statement Strings
+
+// The ? represent each parameter
+// Need to set their values before executing the statement
+// Count from 1
+
+String prepStatInsert = "INSERT INTO movies VALUES (?, ?, ?)";
+
+//ask the connection to prepare a statement from your string:
+PreparedStatement psInsert = connection.prepareStatement(prepStatInsert);
+//replace each question mark with a variable name:
+
+//question marks are counted from 1 not zero:
+Question mark 1 (?): (From just above)
+psInsert.setString(1, name);
+
+Question mark 1 (?):
+psInsert.setInt(2, stars);
+
+Question mark 1 (?):
+psInsert.setBoolean(3, watched);
+psInsert.executeUpdate();
+
+connection is a Connection object, representing the connection between the code and the database.
+
+(slide 9)
+***Another advantage: can also reuse a prepared statement multiple times, with different data
+
+//The ? represent each parameter
+//Need to set their values before executing the statement
+//Count from 1
+
+String prepStatInsert = "INSERT INTO movies VALUES ( ?, ?, ? )";
+PreparedStatement psInsert = connection.prepareStatement(prepStatInsert);
+psInsert.setString(1, name);
+psInsert.setInt(2, stars);
+psInsert.setBoolean(3, watched);
+psInsert.executeUpdate();
+
+//Later, can reuse the same preparedStatement to enter more data
+psInsert.setString(1, "Guardians of the Galaxy");
+psInsert.setInt(2, 0);
+psInsert.setBoolean(3, false);
+
+psInsert.executeUpdate();
+
+14. Call addNewMovies in MovieList.java:
+before addition:     public static void main(String[] args) {
+                         //create a new database object called "database"
+                         //then passing it to the constructor in Database.java using "new Database(DB_PATH)"
+                         //then Database.java will be able to use this to set up the database
+                         database = new Database(DB_PATH);
+
+after addition:      public static void main(String[] args) {
+                        //create a new database object called "database"
+                        //then passing it to the constructor in Database.java using "new Database(DB_PATH)"
+                        //then Database.java will be able to use this to set up the database
+                        database = new Database(DB_PATH);
+                        addNewMovie();
+                    }
+
+15. Using prepared statements (notes from slides here between 13 and 14)
+now finish addNewMovie in Database.java
+
+start with:     public void addNewMovie(Movie movie) {
+                    //6. try connecting to the database:
+                    try (Connection connection = DriverManager.getConnection(databasePath);
+                    Statement statement = connection.createStatement()) {
+                        //todo (mine) be sure to come back and finish this by adding movie:
+                        //insert into movies values('Up, 4, true);
+                        //we won't know what to say without getting the movies.
+                        //we have to add SQL statement to your code
+after changes:    public void addNewMovie(Movie movie) {
+                      //15b. write the SQL here *before* the prepared statement:
+                      String insertSQL = "INSERT INTO movies VALUES (?,?,?)";
+
+                      //6. try connecting to the database:
+                      try (Connection connection = DriverManager.getConnection(databasePath);
+              //        15a. Remove this and replace it with SQL prepared statements
+              //        Statement statement = connection.createStatement() (this was from 5.)
+
+              //        15c.//write the prepared statement:
+                           PreparedStatement preparedStatement = connection.prepareStatement(insertSQL);
+
+                           //todo (mine) be sure to come back and finish this by adding movie:
+                           //insert into movies values('Up, 4, true);
+
+                           //in order to tell the program what the question mark stands for
+                           // (1, is the first parameter, with movie.name)
+                          preparedStatement.setString(1, movie.name);
+
+                      ) {
+
+16. Do some things in Movie.java to make the above prepared statement work:
+//add getters and setters:
+
+start with: public class Movie {
+                String name;
+                int stars;
+                boolean watched;
+
+                //create a constructor:
+                Movie (String name, int stars, boolean watched) {
+                    this.name = name;
+                    this.stars = stars;
+                    this.watched = watched;
+
+                }
+            }
+end with:
+        public class Movie {
+            //16a. set the variables to private:
+            private String name;
+            private int stars;
+            private boolean watched;
+
+            //create a constructor:
+            Movie (String name, int stars, boolean watched) {
+                this.name = name;
+                this.stars = stars;
+                this.watched = watched;
+
+            }
+            //16b. generate some getters and setters for the private data:
+            //right-click, Generate, 'getters and setters', select all the variables:
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getStars() {
+                return stars;
+            }
+
+            public void setStars(int stars) {
+                this.stars = stars;
+            }
+
+            public boolean isWatched() {
+                return watched;
+            }
+
+            public void setWatched(boolean watched) {
+                this.watched = watched;
+            }
+        }
+17. Now back in Database.java:
+change this:  preparedStatement.setString(1, movie.name);
+
+//replace with getter:
+to this: preparedStatement.setString(1, movie.getName());
+
+//18. add the last 2 variables in the question mark to fill in the database:
+             preparedStatement.setInt(2, movie.getStars());
+             preparedStatement.setBoolean(3, movie.isWatched());
+
+//19. add execute statement:
+            preparedStatement.execute();
+
+//20. there is an error, but we'll try running it anyway:
+Go to MovieList.java **this is main, run
+**add data
+** the new database called ("movie_watchlist.sqlite") shows up in 'Hello First Database second try'
+
+//21 add the new database in the project to the database as a data source:
+Go to the database tab on the right,
+click on the plus button
+click "Data Source from path"
+select movie_watchlist.sqlite
+click okay
+make sure its showing up with the correct name,
+correct path and SQLite, then click okay
+**will now show up under database and
+a console [movie_watchlist.sqlite] will open.
+
+**check out if the table was made correctly by clicking open everythign
+in the database place with the right arrows to down arrows.
+
+//22 run again in Main (MovieList.java) and you should be able to
+    add more movies to the table

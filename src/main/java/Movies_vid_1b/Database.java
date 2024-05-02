@@ -2,10 +2,7 @@
 
 package Movies_vid_1b;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
     //2. Make a field to store the database path:
@@ -42,14 +39,33 @@ public class Database {
     //5. write a method: void, called addNewMovie with Movie objects that will store data
     //and move them around (Movie movie)
     public void addNewMovie(Movie movie) {
-        //6. try connecting to the database:
+        //15b. write the SQL here *before* the prepared statement:
+        // like a template string:
+        String insertSQL = "INSERT INTO movies VALUES (?,?,?)";
+
+        //6. try connecting to the database: (this is a try with resources try/catch block)
         try (Connection connection = DriverManager.getConnection(databasePath);
-        Statement statement = connection.createStatement()) {
-            //todo (mine) be sure to come back and finish this by adding movie:
-            //insert into movies values('Up, 4, true);
-            //we won't know what to say without getting the movies.
-            //we have to add SQL statement to your code
-            //need to push
+//        15a. Remove this and replace it with SQL prepared statements
+//        Statement statement = connection.createStatement() (this was from 5.)
+
+//        15c.//write the prepared statement:
+             PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
+
+             //todo (mine) be sure to come back and finish this by adding movie:
+             //insert into movies values('Up, 4, true);
+
+             //in order to tell the program what the question mark stands for
+             // (1, is the first parameter, with movie.name)
+
+            //17. change movie.name to movie.getName()
+             preparedStatement.setString(1, movie.getName());
+
+             //18. add the last 2 variables in the question mark to fill in the database:
+             preparedStatement.setInt(2, movie.getStars());
+             preparedStatement.setBoolean(3, movie.isWatched());
+
+             //19. add execute statement:
+            preparedStatement.execute();
 
 //            statement.executeUpdate();
         } catch (SQLException e) {

@@ -1,3 +1,4 @@
+//this is main
 package Movies_vid_1b;
 
 import static input.InputUtils.*;
@@ -19,6 +20,8 @@ public class MovieList {
         //then passing it to the constructor in Database.java using "new Database(DB_PATH)"
         //then Database.java will be able to use this to set up the database
         database = new Database(DB_PATH);
+        //this will start asking users for information about their movies:
+        addNewMovie();
     }
     //notes in: vid_7_or_1b_notes
     //10. add a method to add new movies:
