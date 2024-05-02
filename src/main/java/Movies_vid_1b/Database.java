@@ -18,6 +18,10 @@ public class Database {
     Database(String databasePath){
         //3. add try catch with resources:
 
+        //9. (in vid_7_or_1b_notes:
+        //this will save the databasePath:
+        this.databasePath = databasePath;
+
         //create table, or make sure it is created:
         //connect and create a table:
         //connection is the connection to the database (on the computer or on the internet)
@@ -42,6 +46,10 @@ public class Database {
         try (Connection connection = DriverManager.getConnection(databasePath);
         Statement statement = connection.createStatement()) {
             //todo (mine) be sure to come back and finish this by adding movie:
+            //insert into movies values('Up, 4, true);
+            //we won't know what to say without getting the movies.
+            //we have to add SQL statement to your code
+
 //            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error adding movie" + movie + " because " + e);
