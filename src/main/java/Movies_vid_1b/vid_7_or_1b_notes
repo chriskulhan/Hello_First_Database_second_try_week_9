@@ -261,10 +261,10 @@ PreparedStatement psInsert = connection.prepareStatement(prepStatInsert);
 Question mark 1 (?): (From just above)
 psInsert.setString(1, name);
 
-Question mark 1 (?):
+Question mark 2 (?):
 psInsert.setInt(2, stars);
 
-Question mark 1 (?):
+Question mark 3 (?):
 psInsert.setBoolean(3, watched);
 psInsert.executeUpdate();
 
